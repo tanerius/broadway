@@ -7,13 +7,26 @@ import (
 )
 
 // The Actor interface that every actor type must implement. An actor can:
-// - Send a finite number of messages
-// - Create a finite number of actors
+// - Send a finite number of messages (If it implements Sender)
+// - Create a finite number of actors (if it implements Creator)
 // - Designate the behaviour (message handler) to be used for the next message
 // From Now on EVERYTHING is an actor.
 type Actor interface {
-	Receive(script any) error
+	Receive(Script) error
 	Init()
+}
+
+// An interface for a basic message. We call it a script in light of Broadway
+type Script interface{}
+
+// An actor that implements Sender will also be able to send messages
+type Sender interface {
+	Send(*PID, Actor)
+}
+
+// An actor that implements Creator will be able to create new actors
+type Creator interface {
+	Create(Actor) *PID
 }
 
 func getOutboundIP() (net.IP, error) {
@@ -42,6 +55,7 @@ func newPid() *PID {
 	}
 }
 
+// A function to determine whether two PIDs are deeply equal
 func (r *PID) Equals(other *PID) bool {
 	if other == nil {
 		return false

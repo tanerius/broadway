@@ -10,8 +10,9 @@ func main() {
 	fmt.Println("Starting...")
 	system := actor.NewActorSystem()
 	echoActor := &actor.EchoActor{}
+
 	// create am actor through a system
-	pid := system.CreateActor(echoActor)
+	pid := system.Create(echoActor)
 	//system.CreateActor("echo2", echoActor)
 
 	//send a couple of messages

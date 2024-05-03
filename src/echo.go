@@ -22,7 +22,7 @@ func (a *EchoActor) Init() {
 	a.logger.Println("EchoActor initialized")
 }
 
-func (a *EchoActor) Receive(message interface{}) error {
+func (a *EchoActor) Receive(message Script) error {
 	a.logger.Println("Received message:", message)
 	return nil
 }
